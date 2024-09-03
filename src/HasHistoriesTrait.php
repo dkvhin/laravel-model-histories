@@ -3,7 +3,6 @@
 namespace Dkvhin\LaravelModelHistories;
 
 use Dkvhin\LaravelModelHistories\Models\ModelHasHistory;
-use Illuminate\Support\Facades\Log;
 
 trait HasHistoriesTrait
 {
@@ -97,9 +96,11 @@ trait HasHistoriesTrait
         $oldValues = [];
         $newValues = [];
         foreach ($this->getDirty() as $key => $value) {
-            $original = $this->getOriginal($key);
-            $oldValues[$key] = $original;
-            $newValues[$key] = $value;
+            if (!isset($this->excludeHistory[$key])) {
+                $original = $this->getOriginal($key);
+                $oldValues[$key] = $original;
+                $newValues[$key] = $value;
+            }
         }
         $this->setNewValues($oldValues);
         $this->setOldValues($newValues);
@@ -110,8 +111,8 @@ trait HasHistoriesTrait
         /**
          * @param \Dkvhin\LaravelModelHistories\HasHistories $model
          */
-        static::updating(fn ($model) => $model->mapChanges());
-        static::creating(fn ($model) => $model->mapChanges());
-        static::deleting(fn ($model) => $model->mapChanges());
+        static::updating(fn($model) => $model->mapChanges());
+        static::creating(fn($model) => $model->mapChanges());
+        static::deleting(fn($model) => $model->mapChanges());
     }
 }

@@ -5,6 +5,11 @@ namespace Dkvhin\LaravelModelHistories;
 interface HasHistories
 {
     /**
+     * @var array<string>
+     */
+    public array $excludeHistory = [];
+
+    /**
      * @param string $description
      * @param mixed $user
      */

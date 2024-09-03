@@ -96,7 +96,7 @@ trait HasHistoriesTrait
         $oldValues = [];
         $newValues = [];
         foreach ($this->getDirty() as $key => $value) {
-            if (!isset($this->excludeHistory[$key])) {
+            if (!isset($this->excludeFromHistory) || !isset($this->excludeFromHistory[$key])) {
                 $original = $this->getOriginal($key);
                 $oldValues[$key] = $original;
                 $newValues[$key] = $value;

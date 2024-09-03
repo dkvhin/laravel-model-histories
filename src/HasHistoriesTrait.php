@@ -53,6 +53,18 @@ trait HasHistoriesTrait
     }
 
     /**
+     * Get columns that are excluded from history
+     * @return array<string>
+     */
+    public function getExcludedColumns(): array
+    {
+        if (isset($this->excludeFromHistory)) {
+            return $this->excludeFromHistory;
+        }
+        return [];
+    }
+
+    /**
      * @param string $description
      * @param mixed $user
      * @param bool $forceInsert
@@ -96,7 +108,7 @@ trait HasHistoriesTrait
         $oldValues = [];
         $newValues = [];
         foreach ($this->getDirty() as $key => $value) {
-            if (!isset($this->excludeFromHistory) || !array_key_exists($key, $this->excludeFromHistory)) {
+            if (!array_key_exists($key, $this->getExcludedColumns())) {
                 $original = $this->getOriginal($key);
                 $oldValues[$key] = $original;
                 $newValues[$key] = $value;

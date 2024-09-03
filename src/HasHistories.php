@@ -34,4 +34,10 @@ interface HasHistories
      * @return array<mixed>
      */
     public function setNewValues(mixed $values): void;
+
+    /**
+     * Get columns that are excluded from history
+     * @return array<string>
+     */
+    public function getExcludedColumns(): array;
 }

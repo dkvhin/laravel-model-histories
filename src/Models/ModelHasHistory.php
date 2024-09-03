@@ -4,6 +4,7 @@ namespace Dkvhin\LaravelModelHistories\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
+use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class ModelHasHistory extends Model
 {
@@ -23,6 +24,14 @@ class ModelHasHistory extends Model
         'is_force_insert'
     ];
 
+    /**
+     * Cast Column to specific data type
+     */
+    protected $casts = [
+        'old_values'    => 'array',
+        'new_values'    => 'array'
+    ];
+
     public function model(): MorphTo
     {
         return $this->morphTo();
@@ -30,6 +39,6 @@ class ModelHasHistory extends Model
 
     public function user(): MorphTo
     {
-        return $this->morphTo();
+        return $this->morphTo()->withoutGlobalScope(SoftDeletingScope::class);
     }
 }

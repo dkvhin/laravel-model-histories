@@ -92,21 +92,26 @@ trait HasHistoriesTrait
         return $this->morphMany(ModelHasHistory::class, 'model');
     }
 
+    public function mapChanges()
+    {
+        $oldValues = [];
+        $newValues = [];
+        foreach ($this->getDirty() as $key => $value) {
+            $original = $this->getOriginal($key);
+            $oldValues[$key] = $original;
+            $newValues[$key] = $value;
+        }
+        $this->setNewValues($oldValues);
+        $this->setOldValues($newValues);
+    }
+
     public static function bootHasHistoriesTrait()
     {
         /**
          * @param \Dkvhin\LaravelModelHistories\HasHistories $model
          */
-        static::updating(function ($model) {
-            $oldValues = [];
-            $newValues = [];
-            foreach ($model->getDirty() as $key => $value) {
-                $original = $model->getOriginal($key);
-                $oldValues[$key] = $original;
-                $newValues[$key] = $value;
-            }
-            $model->setNewValues($oldValues);
-            $model->setOldValues($newValues);
-        });
+        static::updating(fn ($model) => $model->mapChanges());
+        static::creating(fn ($model) => $model->mapChanges());
+        static::deleting(fn ($model) => $model->mapChanges());
     }
 }

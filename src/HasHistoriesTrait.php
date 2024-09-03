@@ -96,14 +96,15 @@ trait HasHistoriesTrait
         $oldValues = [];
         $newValues = [];
         foreach ($this->getDirty() as $key => $value) {
-            if (!isset($this->excludeFromHistory) || !isset($this->excludeFromHistory[$key])) {
+            if (!isset($this->excludeFromHistory) || !array_key_exists($key, $this->excludeFromHistory)) {
                 $original = $this->getOriginal($key);
                 $oldValues[$key] = $original;
                 $newValues[$key] = $value;
             }
         }
-        $this->setNewValues($oldValues);
-        $this->setOldValues($newValues);
+
+        $this->setOldValues($this->exists ? $oldValues : []);
+        $this->setNewValues($newValues);
     }
 
     public static function bootHasHistoriesTrait()

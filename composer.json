@@ -1,0 +1,33 @@
+{
+    "name": "dkvhin/laravel-model-histories",
+    "description": "Laravel plugin primarily use to create timeline or history entries for models.",
+    "type": "library",
+    
+    "require-dev": {
+        "larastan/larastan": "^2.9"
+    },
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Dkvhin\\LaravelModelHistories\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Ervin Musngi",
+            "email": "ervinm@d7softwaresolutions.com"
+        }
+    ],
+    "minimum-stability": "stable",
+    "require": {      
+        "php": "^8.2",
+        "illuminate/support": "^11.0"
+      },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Dkvhin\\LaravelModelHistories\\LaravelModelHistoriesServiceProvider"
+            ]
+        }
+    }
+}

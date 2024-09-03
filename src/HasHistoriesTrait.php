@@ -3,6 +3,7 @@
 namespace Dkvhin\LaravelModelHistories;
 
 use Dkvhin\LaravelModelHistories\Models\ModelHasHistory;
+use Illuminate\Support\Facades\Log;
 
 trait HasHistoriesTrait
 {
@@ -108,7 +109,7 @@ trait HasHistoriesTrait
         $oldValues = [];
         $newValues = [];
         foreach ($this->getDirty() as $key => $value) {
-            if (!array_key_exists($key, $this->getExcludedColumns())) {
+            if (!in_array($key, $this->getExcludedColumns())) {
                 $original = $this->getOriginal($key);
                 $oldValues[$key] = $original;
                 $newValues[$key] = $value;

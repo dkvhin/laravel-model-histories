@@ -72,8 +72,8 @@ trait HasHistoriesTrait
      */
     public function addHistory(string $description, mixed $user = null, bool $forceInsert = false): void
     {
-        $oldValues = json_encode($this->getOldValues());
-        $newValues = json_encode($this->getNewValues());
+        $oldValues = $this->getOldValues();
+        $newValues = $this->getNewValues();
 
         // no changes detected, by default we will not insert this history
         // however if forceInsert is true, we will proceed adding the history
